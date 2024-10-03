@@ -25,12 +25,14 @@ echo $INSTALL_VERSION_OPTION
 export DENO_INSTALL=$BUILD_DIR/.heroku
 export DENO_DIR=$BUILD_DIR/.heroku/cache
 curl -fsSL https://deno.land/x/install/install.sh | sh $INSTALL_VERSION_OPTION
+#upgrade to RC version
+$DENO_INSTALL/bin/deno upgrade rc
 
 # set environment variables
 PROFILE_PATH="$BUILD_DIR/.profile.d/deno.sh"
 mkdir -p $(dirname $PROFILE_PATH)
-echo 'export PATH="$HOME/.heroku/bin:$PATH"' >> $PROFILE_PATH
-echo 'export DENO_DIR="$HOME/.heroku/cache"' >> $PROFILE_PATH
+echo 'export PATH="'$DENO_INSTALL'/bin:$PATH"' >> $PROFILE_PATH
+echo 'export DENO_DIR="'$DENO_DIR"' >> $PROFILE_PATH
 
 set +e
 
